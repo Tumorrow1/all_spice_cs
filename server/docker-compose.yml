@@ -1,0 +1,9 @@
+version: '3'
+services:
+  app:
+    image: your-dockerhub-username/all_spice_cs:latest
+    restart: unless-stopped
+    env_file:
+      - all_spice_cs-env
+    ports:
+      - "7045:80"
