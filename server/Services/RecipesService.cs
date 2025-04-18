@@ -34,4 +34,29 @@ public class RecipesService
     }
     return recipe;
   }
+
+  internal Recipe UpdateRecipe(int recipeId, Recipe recipeData, Account userInfo)
+  {
+    Recipe recipe = GetRecipeById(recipeId);
+    if (recipe.CreatorId != userInfo.Id)
+    {
+      throw new Exception($"YOU ARE NOT ALLOWED TO UPDATE SHAQS RECIPE, {userInfo.Name.ToUpper()}");
+    }
+
+    recipe.Instructions = recipeData.Instructions ?? recipe.Instructions;
+    recipe.Title = recipeData.Title ?? recipe.Title;
+    _repository.UpdateRecipe(recipe);
+    return recipe;
+  }
+
+  internal string DeleteRecipe(int recipeId, Account userInfo)
+  {
+    Recipe recipe = GetRecipeById(recipeId);
+    if (recipe.Creator.Id != userInfo.Id)
+    {
+      throw new Exception($"SHAQ SAID NO TO DELETEING SOMEONE ELSES RECIPE, {userInfo.Name.ToUpper()}");
+    }
+    _repository.DeleteRecipe(recipeId);
+    return $"your {recipe.Title} has been deleted!";
+  }
 }

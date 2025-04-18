@@ -1,6 +1,7 @@
 
 
 
+
 namespace all_spice_cs.Repositories;
 
 public class RecipesRepository
@@ -55,13 +56,50 @@ public class RecipesRepository
    SELECT recipes.*,
     accounts.*
      FROM recipes
-      INNER JOIN accounts.id = recipes.creator_id
+      INNER JOIN accounts ON accounts.id = recipes.creator_id
        WHERE recipes.id = @recipeId;";
 
     Recipe recipe = _db.Query(sql, (Recipe recipe, Account account) =>
     {
+      recipe.Creator = account;
       return recipe;
     }, new { recipeId }).SingleOrDefault();
     return recipe;
+  }
+
+  internal void UpdateRecipe(Recipe recipe)
+  {
+    string sql = @"
+UPDATE recipes
+ SET 
+ title = @Title,
+  instructions = @Instructions,
+   img = @Img
+    WHERE id = @Id
+     LIMIT 1;";
+
+    int rowsAffected = _db.Execute(sql, recipe);
+    if (rowsAffected == 0)
+    {
+      throw new Exception("NO ROWS WERE UPDATED");
+    }
+    if (rowsAffected > 1)
+    {
+      throw new Exception(rowsAffected + "ROWS WERE UPDATED THATS NOT GOOD");
+    }
+  }
+
+  internal void DeleteRecipe(int recipeId)
+  {
+    string sql = @"DELETE FROM recipes WHERE id = @recipeId LIMIT 1;";
+    int rowsAffected = _db.Execute(sql, new { recipeId });
+    if (rowsAffected == 0)
+    {
+      throw new Exception("NO ROWS WERE DELETED");
+    }
+    if (rowsAffected > 1)
+    {
+      throw new Exception(rowsAffected + "ROWS WERE DELETED AND THATS BAD SHAQ SAYS ");
+    }
   }
 }

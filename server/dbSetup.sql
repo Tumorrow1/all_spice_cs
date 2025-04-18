@@ -26,3 +26,7 @@ DROP Table recipes
 select recipes.*, accounts.* FROM recipes INNER JOIN accounts ON accounts.id = recipes.creator_id
 
 SELECT recipes.*, accounts.* FROM recipes INNER JOIN accounts.id = recipes.creator_id WHERE recipes.id 
+
+UPDATE recipes SET title = @Title, instructions = @Instruvtions, img = @Img WHERE id = @Id LIMIT 1;
+
+DELETE FROM recipes WHERE id = @recipesId LIMIT 1
