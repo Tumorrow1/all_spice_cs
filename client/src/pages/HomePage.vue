@@ -2,6 +2,7 @@
 
 import { AppState } from '@/AppState.js';
 import RecipeCard from '@/components/RecipeCard.vue';
+import RecipeModal from '@/components/RecipeModal.vue';
 import { Recipe } from '@/models/Recipe.js';
 import { recipesService } from '@/services/RecipesService.js';
 import { logger } from '@/utils/Logger.js';
@@ -49,10 +50,13 @@ async function getRecipes() {
       <div v-for="recipe in recipes" :key="recipe.id" class="col-4 p-2 image">
         <RecipeCard :recipe="recipe" />
       </div>
-
+      <div>
+      </div>
     </div>
   </div>
 
+
+  <RecipeModal />
 </template>
 
 <style scoped lang="scss">
