@@ -30,3 +30,22 @@ SELECT recipes.*, accounts.* FROM recipes INNER JOIN accounts.id = recipes.creat
 UPDATE recipes SET title = @Title, instructions = @Instruvtions, img = @Img WHERE id = @Id LIMIT 1;
 
 DELETE FROM recipes WHERE id = @recipesId LIMIT 1
+
+create Table ingredients(
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+   created_at DATETIME DEFAULT CURRENT_TIMESTAMP ,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP ,
+  name TEXT NOT NULL,
+  quantity TEXT NOT NULL,
+  recipe_id INT NOT NULL,
+  Foreign Key (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE
+)
+
+SELECT * FROM ingredients;
+
+DROP Table ingredients;
+
+INSERT INTO ingredients(name, quantity, id, recipe_id )
+VALUES(@Name, @Quantity, @Id, @RecipeId);
+
+SELECT ingredients * FROM ingredients;
